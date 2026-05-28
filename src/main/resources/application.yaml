@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: spring-ai-rag
+
+  # Elasticsearch Connection Configuration
+  elasticsearch:
+    uris: https://localhost:9200/
+    username: elastic
+    password: Th-*XKFO-YLRBRqUU56F
+
+  ai:
+    # 1. Global Routing Strategy (Spring AI 1.1.0+ / 2.0.0+)
+    model:
+      chat:
+        enabled: true
+        default-classifier: google-genai
+
+    # 2. Corrected Vector Store Definitions
+    vectorstore:
+      elasticsearch:
+        index-name: structural-rag-index
+        initialize-schema: true # Automatically provisions schema when Spring starts
+
+    # 3. Clean Google GenAI Engine Settings (Targets Gemini 2.x / 3.x seamlessly)
+    google:
+      genai:
+        api-key: ${GOOGLE_GENAI_API_KEY} 
+        project-id: ${GOOGLE_GENAI_PROJECT_ID}
+        chat:
+          options:
+            model: gemini-2.5-flash-lite
+            temperature: 0.3
+        embedding:
+          api-key: ${GOOGLE_GENAI_API_KEY}
+          options:
+            model: text-embedding-004 # Correct property layout for Google GenAI Embeddings
