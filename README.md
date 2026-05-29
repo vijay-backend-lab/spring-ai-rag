@@ -54,7 +54,7 @@ spring:
 
   elasticsearch:
     uris: https://localhost:9200/
-    username: elastic
+    username: [configured via environment]
     password: [configured via environment]
 
   ai:
@@ -103,7 +103,6 @@ spring-ai-rag/
 │   │   │       ├── [Controllers - REST endpoints]
 │   │   │       ├── [Services - Business logic]
 │   │   │       ├── [Configuration - Spring beans]
-│   │   │       └── [Models - DTOs and entities]
 │   │   └── resources/
 │   │       └── application.yaml [Configuration file]
 │   └── test/
@@ -158,69 +157,20 @@ mvn clean package
 ```bash
 export GOOGLE_GENAI_API_KEY=your-api-key
 export GOOGLE_GENAI_PROJECT_ID=your-project-id
+export ELASTIC_USER=your-elasticsearch-user
+export ELASTIC_PASSWORD=your-elasticsearch-password
 mvn spring-boot:run
-```
-
-### Docker (Optional)
-```bash
-mvn clean package
-docker build -t spring-ai-rag .
-docker run -e GOOGLE_GENAI_API_KEY=your-key -e GOOGLE_GENAI_PROJECT_ID=your-project -p 8080:8080 spring-ai-rag
 ```
 
 ---
 
 ## Maven Dependencies (Key)
-
-```xml
-<!-- Spring Boot Web Starter -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-webmvc</artifactId>
-</dependency>
-
-<!-- Google Gemini AI Integration -->
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-starter-model-google-genai</artifactId>
-</dependency>
-
-<!-- Elasticsearch Vector Store -->
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-starter-vector-store-elasticsearch</artifactId>
-</dependency>
-
-<!-- Vector Store Advisors -->
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-advisors-vector-store</artifactId>
-</dependency>
-
-<!-- Document Processing (Tika) -->
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-tika-document-reader</artifactId>
-</dependency>
-
-<!-- Elasticsearch Client -->
-<dependency>
-    <groupId>co.elastic.clients</groupId>
-    <artifactId>elasticsearch-rest5-client</artifactId>
-    <version>9.4.0</version>
-</dependency>
-
-<!-- Spring AI BOM -->
-<dependencyManagement>
-    <dependency>
-        <groupId>org.springframework.ai</groupId>
-        <artifactId>spring-ai-bom</artifactId>
-        <version>2.0.0-M7</version>
-        <type>pom</type>
-        <scope>import</scope>
-    </dependency>
-</dependencyManagement>
-```
+- spring-boot-starter-webmvc
+- spring-ai-starter-model-google-genai
+- spring-ai-starter-vector-store-elasticsearch
+- spring-ai-advisors-vector-store
+- spring-ai-tika-document-reader
+- elasticsearch-rest5-client
 
 ---
 
@@ -228,7 +178,7 @@ docker run -e GOOGLE_GENAI_API_KEY=your-key -e GOOGLE_GENAI_PROJECT_ID=your-proj
 
 ### 1. **Vector Store Architecture**
 - Uses Elasticsearch for distributed, scalable vector storage
-- Automatic schema initialization on startup
+- Automatic schema initialization on startup(**dims** should match with embedding model)
 - Index: `structural-rag-index` for semantic document storage
 
 ### 2. **LLM Model Selection**
@@ -255,7 +205,6 @@ docker run -e GOOGLE_GENAI_API_KEY=your-key -e GOOGLE_GENAI_PROJECT_ID=your-proj
 
 ## Future Enhancements
 
-- [ ] **Multi-Model Support**: Add support for OpenAI, Anthropic Claude, Ollama
 - [ ] **Advanced RAG**: Implement re-ranking, query expansion, and graph-based retrieval
 - [ ] **Caching Layer**: Redis integration for prompt/response caching
 - [ ] **Authentication**: Spring Security with JWT token support
@@ -272,7 +221,7 @@ docker run -e GOOGLE_GENAI_API_KEY=your-key -e GOOGLE_GENAI_PROJECT_ID=your-proj
 
 - **Spring AI Version**: 2.0.0-M7 (Milestone Release)
 - **Java Compatibility**: Tested with Java 25
-- **Elasticsearch Connection**: Uses HTTPS by default (update URI for HTTP if needed)
+- **Elasticsearch Connection**: Uses HTTPS by default
 - **Schema Management**: Automatic initialization on application startup
 - **Model Router**: Configured to use Google GenAI as default classifier
 - **Embedding Consistency**: Ensure same embedding model for indexing and retrieval
@@ -281,31 +230,20 @@ docker run -e GOOGLE_GENAI_API_KEY=your-key -e GOOGLE_GENAI_PROJECT_ID=your-proj
 
 ## License
 
-This project is licensed under the **Apache License 2.0**. See [LICENSE](https://github.com/vijay-backend-lab/spring-ai-rag/blob/main/LICENSE) file for details.
+Licensed under Apache License 2.0
 
 ---
 
 ## Contribution
 
-Contributions are welcome! To contribute:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/YourFeatureName`)
-3. **Commit** your changes (`git commit -m 'Add YourFeatureName'`)
-4. **Push** to the branch (`git push origin feature/YourFeatureName`)
-5. **Open** a Pull Request with clear description of changes
-
-### Guidelines
-- Follow existing code style and naming conventions
-- Add unit tests for new features
-- Update documentation as needed
-- Ensure builds pass without errors
+Contributions are welcome! Feel free to fork, raise issues, or submit PRs.
 
 ---
 
 ## Author
 
-**Vijay Backend Lab** - [GitHub Organization](https://github.com/vijay-backend-lab)
+**Vijay Kumar**
+Backend Engineer | AI | Java | System Design
 
 ---
 
