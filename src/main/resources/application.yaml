@@ -5,7 +5,7 @@ spring:
   # Elasticsearch Connection Configuration
   elasticsearch:
     uris: https://localhost:9200/
-    username: elastic
+    username: ${ELASTIC_USER}
     password: ${ELASTIC_PASSWORD}
 
   ai:
